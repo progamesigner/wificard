@@ -14,6 +14,14 @@
   }
 </script>
 
+<svelte:head>
+  <title>Wi-Fi Card</title>
+  <meta
+    name="description"
+    content="Print a simple card with Wi-Fi details. Tape it to fridge, keep it in wallet, or display it in store, etc."
+  />
+</svelte:head>
+
 <header class="print:hidden">
   <div class="container mx-auto max-w-xl">
     <h1 class="mb-4 flex items-center text-4xl font-bold">
