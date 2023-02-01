@@ -1,5 +1,7 @@
 # Wi-Fi Card
 
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/progamesigner/wificard)
+
 https://wificard.0x148.com
 
 Print a simple card with Wi-Fi details. Tape it to fridge, keep it in wallet, or display it in store, etc.
