@@ -1,15 +1,13 @@
 <script lang="ts">
-  import type { Layout, EAPMethod, EncryptionMode } from './WifiCard.svelte'
-
   import { default as Setting } from './Setting.svelte'
-  import { default as WifiCard } from './WifiCard.svelte'
+  import { default as WifiCard, Layout, EAPMethod, EncryptionMode } from './WifiCard.svelte'
   import { default as WifiIcon } from './WifiIcon.svelte'
 
-  let eapMethod: EAPMethod = 'PWD'
-  let encryptionMode: EncryptionMode = 'WPA'
+  let eapMethod: EAPMethod = EAPMethod.PWD
+  let encryptionMode: EncryptionMode = EncryptionMode.WPA
   let hiddenSSID: boolean = false
   let hidePassword: boolean = false
-  let layout: Layout = 'Landscape'
+  let layout: Layout = Layout.Landscape
 
   function print(): void {
     window.print()
@@ -28,9 +26,9 @@
   </div>
 </header>
 
-<div class="container mb-auto mx-auto max-w-xl">
+<div class="container mx-auto mb-auto max-w-xl">
   <section class="mb-2 print:block">
-    <WifiCard {eapMethod} {encryptionMode} {hiddenSSID} {hidePassword} />
+    <WifiCard {eapMethod} {encryptionMode} {hiddenSSID} {hidePassword} {layout} />
   </section>
 
   <div class="mb-2 print:hidden">

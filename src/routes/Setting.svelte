@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { EAPMethod, EncryptionMode, Layout } from './WifiCard.svelte'
+  import { EAPMethod, EncryptionMode, Layout } from './WifiCard.svelte'
 
-  export let encryptionMode: EncryptionMode = 'WPA'
+  export let encryptionMode: EncryptionMode = EncryptionMode.WPA
   export let hiddenSSID: boolean = false
   export let hidePassword: boolean = false
-  export let layout: Layout = 'Landscape'
-  export let eapMethod: EAPMethod = 'PWD'
+  export let layout: Layout = Layout.Landscape
+  export let eapMethod: EAPMethod = EAPMethod.PWD
 </script>
 
 <div class="flex w-full py-4">
@@ -32,25 +32,45 @@
     <p class="mb-2">Encryption</p>
     <div class="flex flex-col">
       <label class="mb-2 ml-2">
-        <input type="radio" name="encryption" value="nopass" bind:group={encryptionMode} /> None
+        <input
+          type="radio"
+          name="encryption"
+          value={EncryptionMode.NOPASS}
+          bind:group={encryptionMode}
+        /> None
       </label>
       <label class="mb-2 ml-2">
-        <input type="radio" name="encryption" value="WPA" bind:group={encryptionMode} />
+        <input
+          type="radio"
+          name="encryption"
+          value={EncryptionMode.WPA}
+          bind:group={encryptionMode}
+        />
         WPA/WPA2/WPA3
       </label>
       <label class="mb-2 ml-2">
-        <input type="radio" name="encryption" value="WPA2-EAP" bind:group={encryptionMode} />
+        <input
+          type="radio"
+          name="encryption"
+          value={EncryptionMode.WPA2EAP}
+          bind:group={encryptionMode}
+        />
         WPA2-EAP
       </label>
       <label class="mb-2 ml-2">
-        <input type="radio" name="encryption" value="WEP" bind:group={encryptionMode} /> WEP
+        <input
+          type="radio"
+          name="encryption"
+          value={EncryptionMode.WEP}
+          bind:group={encryptionMode}
+        /> WEP
       </label>
     </div>
     {#if encryptionMode === 'WPA2-EAP'}
       <p class="mb-2">EAP Method</p>
       <div class="flex flex-col">
         <label class="mb-2 ml-2">
-          <input type="radio" name="eap" value="PWD" bind:group={eapMethod} /> PWD
+          <input type="radio" name="eap" value={EAPMethod.PWD} bind:group={eapMethod} /> PWD
         </label>
       </div>
     {/if}

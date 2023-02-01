@@ -1,13 +1,31 @@
 <script context="module" lang="ts">
-  export type EAPMethod = 'PWD' | 'TTLS'
-  export type EncryptionMode = 'WEP' | 'WPA' | 'WPA2-EAP' | 'nopass'
-  export type Layout = 'Landscape' | 'Portrait'
+  export const enum EAPMethod {
+    PWD = 'PWD',
+    TTLS = 'TTLS',
+  }
+
+  export const enum EncryptionMode {
+    NOPASS = 'nopass',
+    WEP = 'WEP',
+    WPA = 'WPA',
+    WPA2EAP = 'WPA2-EAP',
+  }
+
+  export const enum Layout {
+    Landscape = 'Landscape',
+    Portrait = 'Portrait',
+  }
+
+  export const enum Hidden {
+    Yes = 'true',
+    No = 'false',
+  }
 
   export interface Options {
     T?: EncryptionMode
     S?: string
     P?: string
-    H?: 'true' | 'false'
+    H?: Hidden
     E?: EAPMethod
     I?: string
   }
@@ -20,10 +38,11 @@
   import { default as QRCodeIcon } from './QRCodeIcon.svelte'
   import { default as WifiIcon } from './WifiIcon.svelte'
 
-  export let eapMethod: EAPMethod = 'PWD'
-  export let encryptionMode: EncryptionMode = 'nopass'
+  export let eapMethod: EAPMethod = EAPMethod.PWD
+  export let encryptionMode: EncryptionMode = EncryptionMode.NOPASS
   export let hiddenSSID: boolean = false
   export let hidePassword: boolean = false
+  export let layout: Layout = Layout.Landscape
 
   let margin: number = 0
   let ssid: string = ''
@@ -45,10 +64,10 @@
       T: encryptionMode,
       S: escape(ssid),
       P: escape(password),
-      H: hiddenSSID ? 'true' : 'false',
+      H: hiddenSSID ? Hidden.Yes : Hidden.No,
     } as Options
 
-    if (encryptionMode === 'nopass') {
+    if (encryptionMode === EncryptionMode.NOPASS) {
       options.P = ''
     }
 
@@ -57,8 +76,8 @@
       options.I = eapIdentity
     }
 
-    if (password === '' && encryptionMode != 'nopass') {
-      options.T = 'nopass'
+    if (password === '' && encryptionMode !== EncryptionMode.NOPASS) {
+      options.T = EncryptionMode.NOPASS
     }
 
     return options
