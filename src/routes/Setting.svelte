@@ -66,7 +66,7 @@
         /> WEP
       </label>
     </div>
-    {#if encryptionMode === 'WPA2-EAP'}
+    {#if encryptionMode === EncryptionMode.WPA2EAP}
       <p class="mb-2">EAP Method</p>
       <div class="flex flex-col">
         <label class="mb-2 ml-2">

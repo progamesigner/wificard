@@ -71,7 +71,7 @@
       options.P = ''
     }
 
-    if (encryptionMode === 'WPA2-EAP') {
+    if (encryptionMode === EncryptionMode.WPA2EAP) {
       options.E = eapMethod
       options.I = eapIdentity
     }
@@ -84,25 +84,36 @@
   }
 </script>
 
-<div class="flex flex-col p-4 shadow-md transition-all hover:shadow-lg">
+<div
+  class="mx-auto flex flex-col p-4 shadow-md transition-all hover:shadow-lg print:mx-0"
+  class:max-w-xs={layout === Layout.Portrait}
+>
   <div class="flex items-center font-bold">
     <span class="mr-2 h-8 w-8">
       <WifiIcon />
     </span>
-    <span>Wi-Fi Login</span>
+    <input
+      class="inline-block h-8 w-full rounded border border-none bg-slate-100 font-bold outline-1 outline-transparent transition-all focus:outline focus:outline-blue-400 print:bg-transparent"
+      placeholder="Wi-Fi Login"
+      type="text"
+    />
   </div>
 
-  <div class="flex flex-row items-center">
-    <div class="basis-7/12 p-4">
+  <div
+    class="flex items-center justify-center"
+    class:flex-col={layout === Layout.Portrait}
+    class:flex-row={layout === Layout.Landscape}
+  >
+    <div class="w-full basis-5/12 p-4" class:px-8={layout === Layout.Portrait}>
       <QRCode data={`WIFI:${data};`} {margin} />
     </div>
 
-    <div class="flex basis-full flex-col justify-center p-4">
+    <div class="flex basis-7/12 flex-col justify-center p-4">
       <div>
         <label>
           <span class="mb-2">Network</span>
           <input
-            class="mb-2 h-12 w-full rounded border px-4 font-bold outline-1 outline-blue-400 transition-all focus:outline print:border-transparent"
+            class="mb-2 h-12 w-full rounded border bg-slate-100 px-4 font-bold outline-1 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
             placeholder="Wifi Network Name ..."
             type="text"
             bind:value={ssid}
@@ -110,12 +121,12 @@
         </label>
       </div>
 
-      {#if encryptionMode === 'WPA2-EAP'}
+      {#if encryptionMode === EncryptionMode.WPA2EAP}
         <div>
           <label>
             <span class="mb-2">EAP Method</span>
             <input
-              class="mb-2 h-12 w-full cursor-not-allowed rounded border px-4 font-bold outline-1 outline-blue-400 transition-all focus:outline print:border-transparent"
+              class="mb-2 h-12 w-full cursor-not-allowed rounded border bg-slate-100 px-4 font-bold outline-1 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
               placeholder="WPA2-EAP Method ..."
               type="text"
               disabled
@@ -128,7 +139,7 @@
           <label>
             <span class="mb-2">EAP Identity</span>
             <input
-              class="mb-2 h-12 w-full rounded border px-4 font-bold outline-1 outline-blue-400 transition-all focus:outline print:border-transparent"
+              class="mb-2 h-12 w-full rounded border bg-slate-100 px-4 font-bold outline-1 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
               type="text"
               placeholder="Username ..."
               bind:value={eapIdentity}
@@ -137,12 +148,12 @@
         </div>
       {/if}
 
-      {#if !hidePassword && encryptionMode !== 'nopass'}
+      {#if !hidePassword && encryptionMode !== EncryptionMode.NOPASS}
         <div>
           <label>
             <span class="mb-2">Password</span>
             <input
-              class="mb-2 h-12 w-full rounded border px-4 font-bold outline-1 outline-blue-400 transition-all focus:outline print:border-transparent"
+              class="mb-2 h-12 w-full rounded border bg-slate-100 px-4 font-bold outline-1 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
               type="text"
               placeholder="Password ..."
               bind:value={password}
@@ -158,7 +169,7 @@
       <span class="h-6 w-6 fill-none stroke-current stroke-2">
         <QRCodeIcon />
       </span>
-      <span>Scan the QRCode to connect</span>
+      <span class="ml-1">Scan the QRCode to connect</span>
     </div>
   </div>
 </div>
