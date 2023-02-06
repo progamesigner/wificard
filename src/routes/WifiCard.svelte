@@ -85,7 +85,7 @@
 </script>
 
 <div
-  class="mx-auto flex flex-col p-4 shadow-md transition-all hover:shadow-lg print:mx-0"
+  class="mx-auto flex flex-col p-4 shadow-md transition-all hover:shadow-lg print:mx-0 print:border-4 print:border-dashed print:border-slate-100 print:shadow-none"
   class:max-w-xs={layout === Layout.Portrait}
 >
   <div class="flex items-center font-bold">
