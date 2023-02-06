@@ -234,6 +234,15 @@
             </p>
           {/if}
         </div>
+      {:else if hidePassword && !!errors.P}
+        <div class="mb-2">
+          <p class="flex items-center text-sm text-red-400">
+            <span class="h-3 w-3 flex-shrink-0 fill-none stroke-current stroke-2">
+              <ExclamationIcon />
+            </span>
+            <span class="px-2">{errors.P}</span>
+          </p>
+        </div>
       {/if}
     </div>
   </div>
