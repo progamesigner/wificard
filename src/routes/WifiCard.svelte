@@ -38,12 +38,15 @@
 </script>
 
 <script lang="ts">
+  import { createEventDispatcher } from 'svelte'
   import { escape } from 'svelte/internal'
 
   import { default as ExclamationIcon } from './ExclamationIcon.svelte'
   import { default as QRCode } from './QRCode.svelte'
   import { default as QRCodeIcon } from './QRCodeIcon.svelte'
   import { default as WifiIcon } from './WifiIcon.svelte'
+
+  const dispatch = createEventDispatcher()
 
   export let eapIdentity: string = ''
   export let eapIdentityError: string = ''
@@ -62,6 +65,18 @@
   $: options = makeOptions(encryptionMode, ssid, password, hiddenSSID, eapMethod, eapIdentity)
   $: data = Object.entries(options).reduce((data, [key, value]) => `${data}${key}:${value};`, '')
   $: errors = makeErrors(ssidError, passwordError, eapIdentityError)
+
+  function handleEAPIdentityChanged(): void {
+    dispatch('eapIdentityChanged')
+  }
+
+  function handlePasswordChanged(): void {
+    dispatch('passwordChanged')
+  }
+
+  function handleSSIDChanged(): void {
+    dispatch('ssidChanged')
+  }
 
   function makeErrors(ssid: string, password: string, eapIdentity: string): Errors {
     const errors = {} as Errors
@@ -147,6 +162,7 @@
             placeholder="Wifi Network Name ..."
             type="text"
             bind:value={ssid}
+            on:input={handleSSIDChanged}
           />
         </label>
         {#if !!errors.S}
@@ -182,6 +198,7 @@
               type="text"
               placeholder="Username ..."
               bind:value={eapIdentity}
+              on:input={handleEAPIdentityChanged}
             />
           </label>
           {#if !!errors.I}
@@ -205,6 +222,7 @@
               type="text"
               placeholder="Password ..."
               bind:value={password}
+              on:input={handlePasswordChanged}
             />
           </label>
           {#if !!errors.P}
