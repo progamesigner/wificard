@@ -89,11 +89,11 @@
   class:max-w-xs={layout === Layout.Portrait}
 >
   <div class="flex items-center font-bold">
-    <span class="mr-2 h-8 w-8">
+    <span class="h-8 w-8">
       <WifiIcon />
     </span>
     <input
-      class="inline-block h-8 w-full rounded border border-none bg-slate-100 font-bold outline-1 outline-transparent transition-all focus:outline focus:outline-blue-400 print:bg-transparent"
+      class="inline-block h-8 w-full rounded border border-none bg-slate-100 px-2 font-bold outline-1 outline-transparent transition-all focus:outline focus:outline-blue-400 print:bg-transparent"
       placeholder="Wi-Fi Login"
       type="text"
     />
