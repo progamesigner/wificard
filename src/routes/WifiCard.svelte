@@ -21,6 +21,12 @@
     No = 'false',
   }
 
+  export interface Errors {
+    S?: string
+    P?: string
+    I?: string
+  }
+
   export interface Options {
     T?: EncryptionMode
     S?: string
@@ -34,23 +40,46 @@
 <script lang="ts">
   import { escape } from 'svelte/internal'
 
+  import { default as ExclamationIcon } from './ExclamationIcon.svelte'
   import { default as QRCode } from './QRCode.svelte'
   import { default as QRCodeIcon } from './QRCodeIcon.svelte'
   import { default as WifiIcon } from './WifiIcon.svelte'
 
+  export let eapIdentity: string = ''
+  export let eapIdentityError: string = ''
   export let eapMethod: EAPMethod = EAPMethod.PWD
   export let encryptionMode: EncryptionMode = EncryptionMode.NOPASS
   export let hiddenSSID: boolean = false
   export let hidePassword: boolean = false
   export let layout: Layout = Layout.Landscape
+  export let password: string = ''
+  export let passwordError: string = ''
+  export let ssid: string = ''
+  export let ssidError: string = ''
 
   let margin: number = 0
-  let ssid: string = ''
-  let password: string = ''
-  let eapIdentity: string = ''
 
   $: options = makeOptions(encryptionMode, ssid, password, hiddenSSID, eapMethod, eapIdentity)
   $: data = Object.entries(options).reduce((data, [key, value]) => `${data}${key}:${value};`, '')
+  $: errors = makeErrors(ssidError, passwordError, eapIdentityError)
+
+  function makeErrors(ssid: string, password: string, eapIdentity: string): Errors {
+    const errors = {} as Errors
+
+    if (ssid.length > 0) {
+      errors.S = ssid
+    }
+
+    if (password.length > 0) {
+      errors.P = password
+    }
+
+    if (eapIdentity.length > 0) {
+      errors.I = eapIdentity
+    }
+
+    return errors
+  }
 
   function makeOptions(
     encryptionMode: EncryptionMode,
@@ -85,7 +114,7 @@
 </script>
 
 <div
-  class="mx-auto flex flex-col p-4 shadow-md transition-all hover:shadow-lg print:mx-0 print:border-4 print:border-dashed print:border-slate-100 print:shadow-none"
+  class="mx-auto flex flex-col p-4 shadow-md hover:shadow-lg print:mx-0 print:border-4 print:border-dashed print:border-slate-100 print:shadow-none"
   class:max-w-xs={layout === Layout.Portrait}
 >
   <div class="flex items-center font-bold">
@@ -93,7 +122,7 @@
       <WifiIcon />
     </span>
     <input
-      class="inline-block h-8 w-full rounded border border-none bg-slate-100 px-2 font-bold outline-1 outline-transparent transition-all focus:outline focus:outline-blue-400 print:bg-transparent"
+      class="inline-block h-8 w-full rounded border border-none bg-slate-100 px-2 font-bold outline-2 outline-transparent transition-all focus:outline focus:outline-blue-400 print:bg-transparent"
       placeholder="Wi-Fi Login"
       type="text"
     />
@@ -109,24 +138,33 @@
     </div>
 
     <div class="flex basis-7/12 flex-col justify-center p-4">
-      <div>
+      <div class="mb-2">
         <label>
           <span class="mb-2">Network</span>
           <input
-            class="mb-2 h-12 w-full rounded border bg-slate-100 px-4 font-bold outline-1 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
+            class="h-12 w-full rounded border bg-slate-100 px-4 font-bold outline-2 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
+            class:border-red-400={!!errors.S}
             placeholder="Wifi Network Name ..."
             type="text"
             bind:value={ssid}
           />
         </label>
+        {#if !!errors.S}
+          <p class="flex items-center text-sm text-red-400">
+            <span class="h-3 w-3 flex-shrink-0 fill-none stroke-current stroke-2">
+              <ExclamationIcon />
+            </span>
+            <span class="px-2">{errors.S}</span>
+          </p>
+        {/if}
       </div>
 
       {#if encryptionMode === EncryptionMode.WPA2EAP}
-        <div>
+        <div class="mb-2">
           <label>
             <span class="mb-2">EAP Method</span>
             <input
-              class="mb-2 h-12 w-full cursor-not-allowed rounded border bg-slate-100 px-4 font-bold outline-1 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
+              class="h-12 w-full cursor-not-allowed rounded border bg-slate-100 px-4 font-bold outline-2 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
               placeholder="WPA2-EAP Method ..."
               type="text"
               disabled
@@ -135,30 +173,48 @@
             />
           </label>
         </div>
-        <div>
+        <div class="mb-2">
           <label>
             <span class="mb-2">EAP Identity</span>
             <input
-              class="mb-2 h-12 w-full rounded border bg-slate-100 px-4 font-bold outline-1 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
+              class="h-12 w-full rounded border bg-slate-100 px-4 font-bold outline-2 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
+              class:border-red-400={!!errors.I}
               type="text"
               placeholder="Username ..."
               bind:value={eapIdentity}
             />
           </label>
+          {#if !!errors.I}
+            <p class="flex items-center text-sm text-red-400">
+              <span class="h-3 w-3 flex-shrink-0 fill-none stroke-current stroke-2">
+                <ExclamationIcon />
+              </span>
+              <span class="px-2">{errors.I}</span>
+            </p>
+          {/if}
         </div>
       {/if}
 
       {#if !hidePassword && encryptionMode !== EncryptionMode.NOPASS}
-        <div>
+        <div class="mb-2">
           <label>
             <span class="mb-2">Password</span>
             <input
-              class="mb-2 h-12 w-full rounded border bg-slate-100 px-4 font-bold outline-1 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
+              class="h-12 w-full rounded border bg-slate-100 px-4 font-bold outline-2 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
+              class:border-red-400={!!errors.P}
               type="text"
               placeholder="Password ..."
               bind:value={password}
             />
           </label>
+          {#if !!errors.P}
+            <p class="flex items-center text-sm text-red-400">
+              <span class="h-3 w-3 flex-shrink-0 fill-none stroke-current stroke-2">
+                <ExclamationIcon />
+              </span>
+              <span class="px-2">{errors.P}</span>
+            </p>
+          {/if}
         </div>
       {/if}
     </div>
