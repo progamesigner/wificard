@@ -82,6 +82,17 @@
   </div>
 </header>
 
+<noscript>
+  <div class="container mx-auto mb-auto max-w-xl">
+    <p>
+      You need to enable JavaScript to run this app. Feel free to view the <a
+        class="text-blue-600"
+        href="https://github.com/progamesigner/wificard">source code</a
+      >.
+    </p>
+  </div>
+</noscript>
+
 <div class="container mx-auto mb-auto max-w-xl">
   <section class="mb-2 print:block">
     <WifiCard
@@ -120,7 +131,9 @@
 
 <footer class="mt-auto print:hidden">
   <div class="container mx-auto max-w-xl py-8 text-center">
-    Made with <span class="text-red-600">&hearts;</span> By
-    <a class="text-blue-600" href="https://progamesigner.com">progamesigner</a>.
+    <p>
+      Made with <span class="text-red-600">&hearts;</span> by
+      <a class="text-blue-600" href="https://progamesigner.com">progamesigner</a>.
+    </p>
   </div>
 </footer>
