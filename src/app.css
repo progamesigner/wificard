@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 body {
-    @apply flex flex-col  h-screen;
+    @apply flex flex-col h-screen;
 }
