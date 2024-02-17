@@ -13,8 +13,8 @@
   },
   "type": "module",
   "devDependencies": {
-    "@sveltejs/adapter-auto": "^2.0",
-    "@sveltejs/kit": "^1.30",
+    "@sveltejs/adapter-auto": "^3.1",
+    "@sveltejs/kit": "^2.5",
     "@types/qrcode": "^1.5.0",
     "@typescript-eslint/eslint-plugin": "^5.54",
     "@typescript-eslint/parser": "^5.54",
