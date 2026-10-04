@@ -39,7 +39,6 @@
 
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { escape } from 'svelte/internal'
 
   import { default as ExclamationIcon } from './ExclamationIcon.svelte'
   import { default as QRCode } from './QRCode.svelte'
@@ -106,8 +105,8 @@
   ): Options {
     const options = {
       T: encryptionMode,
-      S: escape(ssid),
-      P: escape(password),
+      S: escapeWiFiValue(ssid),
+      P: escapeWiFiValue(password),
       H: hiddenSSID ? Hidden.Yes : Hidden.No,
     } as Options
 
@@ -125,6 +124,10 @@
     }
 
     return options
+  }
+
+  function escapeWiFiValue(value: string): string {
+    return value.replace(/[\\;,:"]/g, '\\$&')
   }
 </script>
 
