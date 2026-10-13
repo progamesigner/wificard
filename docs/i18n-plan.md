@@ -1,6 +1,6 @@
 # Wi-Fi Card Phase 2：i18n 設計與實作計畫
 
-本文件只提出設計與待辦，尚未實作功能。依據 2026-10-13 唯讀取得的外部正本 `200 Projects/🟠 Wi-Fi Card - Phrase 2.md`，以及 repo 基準 commit `98ab8097cf6217207ab07fa1a1675e0b5b0ea2cc` 撰寫。外部正本的既定目標是 English、繁體中文、簡體中文三種語言，以及字體、按鈕樣式調整；以下技術細節是本文件的建議，不代表外部正本已採納。
+本文件原為設計與待辦；T1–T6 已在 `i18n-design` branch 實作，T7 的自動化部分已完成，人工驗收待辦，實作結果見第 10 節。依據 2026-10-13 唯讀取得的外部正本 `200 Projects/🟠 Wi-Fi Card - Phrase 2.md`，以及 repo 基準 commit `98ab8097cf6217207ab07fa1a1675e0b5b0ea2cc` 撰寫。外部正本的既定目標是 English、繁體中文、簡體中文三種語言，以及字體、按鈕樣式調整；以下技術細節是本文件的建議，不代表外部正本已採納。
 
 ## 1. 建議方案與範圍
 
@@ -176,30 +176,30 @@ src/lib/components/LanguageSelect.svelte
 
 ## 7. 可逐項交付的實作任務
 
-以下均為**未執行**待辦。agent 應在使用者指定的實作 worktree 依序執行；每項交付說明變更、驗證與限制。不得修改外部正本、部署、開 PR 或 merge。
+T1–T6 已完成；T7 仍有人工驗收項目，因此維持未勾選（見第 10 節）。agent 應在使用者指定的實作 worktree 依序執行；每項交付說明變更、驗證與限制。不得修改外部正本、部署、開 PR 或 merge。
 
-- [ ] **T1：建立可重現基準與測試入口。**
+- [x] **T1：建立可重現基準與測試入口。**
   - 讀取當時的 lockfile 與 Node engines，使用相容環境執行 `npm ci`、`npm run check`、`npm run lint`、`npm run build`，記錄既有失敗，不以升級整個工具鏈排除失敗。
   - 新增相容 Vite 8／Svelte 5 的 Vitest 與 Playwright 開發依賴、`test:unit`（一次性執行）、`test:e2e` 指令及設定；更新 lockfile。此處是未來工作，本文件不宣稱指令已存在。
   - 驗收：測試 runner 設定可載入，並能執行一個本機頁面 smoke test；locale 純函式測試由 T2 補上。記錄基準英文頁面與列印畫面。測試服務只能綁定本機，不碰正式站。
 
-- [ ] **T2：實作 locale 純函式與翻譯型別。依賴 T1。**
+- [x] **T2：實作 locale 純函式與翻譯型別。依賴 T1。**
   - 新增 `locales.ts`、英文來源字典、`translate.ts`，定義 Locale、key、參數與缺漏 fallback；不引入 ICU 解析器。
   - 驗收：第 4 節所有匹配案例、script 優先、重複 query、無效輸入、候選順序通過單元測試；錯誤 key 與參數不能通過型別檢查。
 
-- [ ] **T3：完成三語字典與抽取清單。依賴 T2。**
+- [x] **T3：完成三語字典與抽取清單。依賴 T2。**
   - 逐一比對第 5.2 節與原始碼，補齊完整三語文字、aria label、placeholder、head、noscript 與參數化錯誤；建立 key／參數完整性檢查。
   - 驗收：三語 key 完全一致，無空值、無漏參數；繁中使用臺灣用語，簡中獨立校對。英文文案如修正大小寫，需記錄差異與理由。
 
-- [ ] **T4：串接 SSR、context 與瀏覽器偏好。依賴 T2、T3。**
+- [x] **T4：串接 SSR、context 與瀏覽器偏好。依賴 T2、T3。**
   - 修改 `app.html`、新增 hook／layout load，實作每個元件樹獨立 store、browser 模組、首次掛載與導覽同步。
   - 驗收：不同語言的並行 SSR 回應無污染；伺服器不存取 browser API；有效 URL 的 HTML 語言與內容一致；無 URL 時沒有 hydration mismatch；storage 拒絕存取仍可運作。
 
-- [ ] **T5：新增切換 UI 並抽換現有文字。依賴 T4。**
+- [x] **T5：新增切換 UI 並抽換現有文字。依賴 T4。**
   - 新增 `LanguageSelect.svelte`，更新 page、card、settings、head 與 noscript；落實 URL replace、storage 手動寫入、錯誤代碼、自訂標題與可存取名稱。
   - 驗收：在已有輸入、WPA2-EAP 欄位、驗證錯誤時連續切換三語，文字立即更新、輸入與設定不變；QR payload 不變、URL／storage 沒有輸入資料。
 
-- [ ] **T6：調整字體、控制項與列印版面。依賴 T5。**
+- [x] **T6：調整字體、控制項與列印版面。依賴 T5。**
   - 修改 `app.css`、Tailwind 設定及必要元件 class；處理原生 select、按鈕狀態、字型 fallback、長文字換行與列印 override。
   - 驗收：三語在 320px、375px、768px、1280px 與 200% 縮放下無頁面水平溢出、無文字遮擋；鍵盤焦點清楚，按鈕對比通過量測；沒有新增外部字型請求。
 
@@ -238,4 +238,35 @@ Playwright 可用 `window.print` stub 驗證呼叫與呼叫當下 DOM，並用 p
 - **品牌指定字體或各語言字形必須跨平台完全一致：** 選自託管字型，或保留系統字體；目前建議系統字體。採自託管前需取得字型與授權，不能自行接外部字型服務。
 - **需要修改部署環境才能驗證線上結果：** 選另案修正 Node／部署設定，或只完成本機驗證；本任務邊界建議只驗證本機，不變更線上服務。
 
-本次交付只新增本規劃文件，文件驗證不代表 i18n 功能、候選函式庫或線上環境已通過測試。
+原規劃交付只新增本文件；實作結果與驗證範圍見第 10 節。
+
+## 10. 實作紀錄（2026-10-13）
+
+依本計畫預設做法實作：小型 TypeScript 字典、localStorage 手動偏好、URL `lang` 決定 SSR 語言、系統字體。**未**採用 cookie＋SSR 協商；沒有有效 `lang` 的首次載入仍先顯示英文，掛載後再套用儲存偏好或瀏覽器語言（第 4.3 節的已知取捨）。
+
+### 10.1 基準與環境修正（T1）
+
+- 驗證環境 Node 24.21.0（符合 Vite 8 engines）；`npm ci` 成功。
+- 既有失敗一：在 `<repo>/.worktrees/<name>` 內執行 `build`、`check` 時出現 `TSCONFIG_ERROR: Tsconfig not found`。原因是 oxc 會往上層目錄找 tsconfig，撞到主 checkout 的 `tsconfig.json`；主 checkout 沒有 `.svelte-kit/`，`extends` 失效。修正方式：在 `tsconfig.json` 寫明 `include`，清單對齊 SvelteKit 自動產生的設定。另外照 SvelteKit 的警告移除 `baseUrl`，因為它會讓 `$lib` 別名無法產生。主 checkout 沒有改動。
+- 既有失敗二：`prettier --check` 有 8 個檔案格式不符，所以 ESLint 從未執行；ESLint 跑起來後又報出 `QRCode.svelte` 的 `no-extra-boolean-cast`。修正方式：只做格式化，以及把 `!!data[index]` 改成 `data[index]`，行為不變。
+- 新增 Vitest 5 與 Playwright 1.64。單元測試另用 `vitest.config.ts`，不載入 SvelteKit plugin，因為依賴預先最佳化在 worktree 會撞到上述 tsconfig 問題，而單元測試只涵蓋純 TS 模組。指令有 `test:unit`、`test:e2e`（Chromium）、`test:e2e:all`（三種瀏覽器）與 `test`。
+- `netlify.toml` 的 Node 18 與 Vite 8 不相容這點維持原狀，留待另案處理。
+
+### 10.2 與計畫的差異
+
+- 英文文案只改兩處：`Scan the QRCode to connect` 改為 `Scan the QR code to connect`，`Wifi Network Name ...` 改為 `Wi-Fi network name ...`，讓寫法和品牌名稱一致。其他英文標籤保留原本的大小寫。
+- 隱私說明後的連結改用完整句子 `app.sourceLink`（View the source code on GitHub.）當連結文字，所以沒有用到 `app.sourceSentence`。頁尾改為 `app.credit({ author })` 的完整文字連結（例如 Made by progamesigner），後面接一個 `aria-hidden` 的裝飾愛心。
+- 單元測試要注入缺 key 的字典，所以 `translate.ts` 另外匯出 `translateFrom`；正式字典仍保持凍結、不可變。
+- 版面：設定區在 `sm` 以下改為上下堆疊；卡片本身不使用 breakpoint，列印時仍依使用者選的橫向／直向排列。容器加上 16px 側邊留白，列印時取消。
+
+### 10.3 驗證結果
+
+- `npm run lint`、`npm run check`、`npm run build` 全數通過。
+- `npm run test:unit`：3 個檔案、58 項通過，涵蓋第 4 節的匹配表、script 優先、重複 query、候選順序、storage 例外、URL 合併、三語 key／種類／參數完整性，以及用 `@ts-expect-error` 驗證錯誤 key 與參數會被型別檢查攔下（由 `npm run check` 驗證）。
+- `npm run test:e2e`（Chromium）30 項通過；Firefox 同一套 30 項也通過。涵蓋原始 HTML 的 lang／文字／meta／noscript、24 個交錯並行請求無語言污染、URL > storage > 瀏覽器 > 英文的優先順序、無 hydration 警告、storage 擲例外時仍可運作、切換語言時輸入／設定／錯誤／自訂標題／QR path 不變、URL 只合併 `lang` 並保留其他 query 與 hash、不新增歷史項目、上一頁／下一頁會重新解析、有錯誤時不列印、列印時 DOM 已是最新語言、print media 只顯示卡片且 QR Code 維持正方形、三語在 320／375／768／1280px 沒有水平溢出、字體順序依語言切換、列印按鈕對比至少 4.5:1 且高度至少 44px、沒有外部請求，且 URL／storage／cookie 不含輸入資料。
+
+### 10.4 尚未完成的人工驗收（T7）
+
+- WebKit：本機缺少系統函式庫（需要 sudo 安裝），沒有執行。
+- 驗證主機沒有安裝 CJK 字型，截圖中的中文顯示為方框，因此實際字形、`h-8` 標題是否裁切中文，需在有中文字型的裝置上目視確認。
+- 真實列印預覽與 PDF（三語 × 橫向／直向）、200% 縮放（目前以 320–768px 寬度近似），以及用手機實際掃描三語卡片的測試 QR Code，都還沒做。

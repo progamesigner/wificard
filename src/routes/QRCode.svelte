@@ -2,6 +2,7 @@
   import { create } from 'qrcode'
 
   export let data: string = ''
+  export let label: string = ''
   export let margin: number = 0
 
   $: qrcode = create(data, {})
@@ -23,7 +24,7 @@
         startRow = true
       }
 
-      if (!!data[index]) {
+      if (data[index]) {
         moveBy++
 
         if (startRow) {
@@ -50,6 +51,8 @@
 
 <div class="aspect-square stroke-black stroke-1">
   <svg
+    role="img"
+    aria-label={label}
     shape-rendering="crispEdges"
     viewBox={`0 0 ${size} ${size}`}
     xmlns="http://www.w3.org/2000/svg"

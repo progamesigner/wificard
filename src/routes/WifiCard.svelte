@@ -40,12 +40,15 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
 
+  import { getI18n } from '$lib/i18n/context'
+
   import { default as ExclamationIcon } from './ExclamationIcon.svelte'
   import { default as QRCode } from './QRCode.svelte'
   import { default as QRCodeIcon } from './QRCodeIcon.svelte'
   import { default as WifiIcon } from './WifiIcon.svelte'
 
   const dispatch = createEventDispatcher()
+  const { t } = getI18n()
 
   export let eapIdentity: string = ''
   export let eapIdentityError: string = ''
@@ -59,6 +62,8 @@
   export let ssid: string = ''
   export let ssidError: string = ''
 
+  // Card title stays in page memory; an empty value shows the current language's placeholder.
+  let customTitle: string = ''
   let margin: number = 0
 
   $: options = makeOptions(encryptionMode, ssid, password, hiddenSSID, eapMethod, eapIdentity)
@@ -136,14 +141,18 @@
   class:max-w-xs={layout === Layout.Portrait}
 >
   <div class="flex items-center font-bold">
-    <span class="h-8 w-8">
+    <span class="h-8 w-8 flex-shrink-0">
       <WifiIcon />
     </span>
-    <input
-      class="inline-block h-8 w-full rounded border border-none bg-slate-100 px-2 font-bold outline-2 outline-transparent transition-all focus:outline focus:outline-blue-400 print:bg-transparent"
-      placeholder="Wi-Fi Login"
-      type="text"
-    />
+    <label class="min-w-0 flex-1">
+      <span class="sr-only">{$t('card.title.label')}</span>
+      <input
+        class="inline-block h-8 w-full rounded border border-none bg-slate-100 px-2 font-bold outline-2 outline-transparent transition-all focus:outline focus:outline-blue-400 print:bg-transparent"
+        placeholder={$t('card.title.placeholder')}
+        type="text"
+        bind:value={customTitle}
+      />
+    </label>
   </div>
 
   <div
@@ -152,28 +161,30 @@
     class:flex-row={layout === Layout.Landscape}
   >
     <div class="w-full basis-5/12 p-4" class:px-8={layout === Layout.Portrait}>
-      <QRCode data={`WIFI:${data};`} {margin} />
+      <QRCode data={`WIFI:${data};`} label={$t('card.qrLabel')} {margin} />
     </div>
 
-    <div class="flex basis-7/12 flex-col justify-center p-4">
+    <div class="flex min-w-0 basis-7/12 flex-col justify-center p-4">
       <div class="mb-2">
         <label>
-          <span class="mb-2">Network</span>
+          <span class="mb-2 font-medium">{$t('card.network.label')}</span>
           <input
             class="h-12 w-full rounded border bg-slate-100 px-4 font-bold outline-2 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
             class:border-red-400={!!errors.S}
-            placeholder="Wifi Network Name ..."
+            aria-invalid={!!errors.S}
+            aria-describedby={errors.S ? 'ssid-error' : undefined}
+            placeholder={$t('card.network.placeholder')}
             type="text"
             bind:value={ssid}
             on:input={handleSSIDChanged}
           />
         </label>
         {#if !!errors.S}
-          <p class="flex items-center text-sm text-red-400">
+          <p id="ssid-error" class="flex items-center text-sm text-red-400">
             <span class="h-3 w-3 flex-shrink-0 fill-none stroke-current stroke-2">
               <ExclamationIcon />
             </span>
-            <span class="px-2">{errors.S}</span>
+            <span class="min-w-0 break-words px-2">{errors.S}</span>
           </p>
         {/if}
       </div>
@@ -181,10 +192,10 @@
       {#if encryptionMode === EncryptionMode.WPA2EAP}
         <div class="mb-2">
           <label>
-            <span class="mb-2">EAP Method</span>
+            <span class="mb-2 font-medium">{$t('card.eapMethod.label')}</span>
             <input
               class="h-12 w-full cursor-not-allowed rounded border bg-slate-100 px-4 font-bold outline-2 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
-              placeholder="WPA2-EAP Method ..."
+              placeholder={$t('card.eapMethod.placeholder')}
               type="text"
               disabled
               readonly
@@ -194,22 +205,24 @@
         </div>
         <div class="mb-2">
           <label>
-            <span class="mb-2">EAP Identity</span>
+            <span class="mb-2 font-medium">{$t('card.identity.label')}</span>
             <input
               class="h-12 w-full rounded border bg-slate-100 px-4 font-bold outline-2 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
               class:border-red-400={!!errors.I}
               type="text"
-              placeholder="Username ..."
+              aria-invalid={!!errors.I}
+              aria-describedby={errors.I ? 'identity-error' : undefined}
+              placeholder={$t('card.identity.placeholder')}
               bind:value={eapIdentity}
               on:input={handleEAPIdentityChanged}
             />
           </label>
           {#if !!errors.I}
-            <p class="flex items-center text-sm text-red-400">
+            <p id="identity-error" class="flex items-center text-sm text-red-400">
               <span class="h-3 w-3 flex-shrink-0 fill-none stroke-current stroke-2">
                 <ExclamationIcon />
               </span>
-              <span class="px-2">{errors.I}</span>
+              <span class="min-w-0 break-words px-2">{errors.I}</span>
             </p>
           {/if}
         </div>
@@ -218,22 +231,24 @@
       {#if !hidePassword && encryptionMode !== EncryptionMode.NOPASS}
         <div class="mb-2">
           <label>
-            <span class="mb-2">Password</span>
+            <span class="mb-2 font-medium">{$t('card.password.label')}</span>
             <input
               class="h-12 w-full rounded border bg-slate-100 px-4 font-bold outline-2 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
               class:border-red-400={!!errors.P}
               type="text"
-              placeholder="Password ..."
+              aria-invalid={!!errors.P}
+              aria-describedby={errors.P ? 'password-error' : undefined}
+              placeholder={$t('card.password.placeholder')}
               bind:value={password}
               on:input={handlePasswordChanged}
             />
           </label>
           {#if !!errors.P}
-            <p class="flex items-center text-sm text-red-400">
+            <p id="password-error" class="flex items-center text-sm text-red-400">
               <span class="h-3 w-3 flex-shrink-0 fill-none stroke-current stroke-2">
                 <ExclamationIcon />
               </span>
-              <span class="px-2">{errors.P}</span>
+              <span class="min-w-0 break-words px-2">{errors.P}</span>
             </p>
           {/if}
         </div>
@@ -243,7 +258,7 @@
             <span class="h-3 w-3 flex-shrink-0 fill-none stroke-current stroke-2">
               <ExclamationIcon />
             </span>
-            <span class="px-2">{errors.P}</span>
+            <span class="min-w-0 break-words px-2">{errors.P}</span>
           </p>
         </div>
       {/if}
@@ -255,7 +270,7 @@
       <span class="h-6 w-6 fill-none stroke-current stroke-2">
         <QRCodeIcon />
       </span>
-      <span class="ml-1">Scan the QRCode to connect</span>
+      <span class="ml-1 min-w-0 break-words">{$t('card.scanHint')}</span>
     </div>
   </div>
 </div>

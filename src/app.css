@@ -2,6 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-    @apply flex flex-col h-screen;
+@layer base {
+  /* System fonts only; CJK fallbacks follow the document language and also cover Chinese SSIDs on
+     the English page. Fonts that are not installed are skipped by the browser. */
+  :root {
+    --font-cjk:
+      'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', 'PingFang SC', 'Microsoft YaHei',
+      'Noto Sans SC';
+  }
+
+  html:lang(zh-CN) {
+    --font-cjk:
+      'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', 'PingFang TC', 'Microsoft JhengHei',
+      'Noto Sans TC';
+  }
+
+  html {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  body {
+    @apply flex min-h-screen flex-col;
+  }
 }
