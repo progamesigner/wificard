@@ -26,6 +26,7 @@
     // Keep the page state, path, other query parameters and hash; replace without reloading so
     // unsaved form input survives and no history entry is added per switch.
     try {
+      // eslint-disable-next-line svelte/no-navigation-without-resolve -- the URL is built from the current location, so it already includes any base path.
       replaceState(urlWithLocale(new URL(window.location.href), value), $page.state)
     } catch {
       // The switch already applied; a failed URL update must not break the page.
