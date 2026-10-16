@@ -37,7 +37,7 @@
     </div>
   </div>
   <div
-    class="min-w-0 border-t border-blue-400 pt-4 sm:basis-6/12 sm:border-l sm:border-t-0 sm:pl-2 sm:pt-0"
+    class="min-w-0 border-t border-blue-400 pt-4 sm:basis-6/12 sm:border-t-0 sm:border-l sm:pt-0 sm:pl-2"
   >
     <p class="mb-2 font-semibold">{$t('settings.encryption')}</p>
     <div class="flex flex-col">

@@ -12,5 +12,6 @@
   "printWidth": 100,
   "semi": false,
   "singleQuote": true,
+  "tailwindStylesheet": "./src/app.css",
   "trailingComma": "es5"
 }

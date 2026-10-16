@@ -36,7 +36,7 @@
 <label class="flex items-center gap-2 print:hidden">
   <span class="font-medium">{$t('language.label')}</span>
   <select
-    class="min-h-[44px] rounded-md border border-slate-300 bg-white px-3 font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+    class="min-h-[44px] rounded-md border border-slate-300 bg-white px-3 font-medium focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
     value={$locale}
     on:change={handleChange}
   >

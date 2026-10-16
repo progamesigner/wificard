@@ -88,8 +88,8 @@
 <header class="print:hidden">
   <div class="container mx-auto max-w-xl px-4 pt-4">
     <div class="mb-4 flex flex-wrap items-center justify-between gap-4">
-      <h1 class="flex items-center text-4xl font-bold leading-tight">
-        <span class="mr-2 h-10 w-10 flex-shrink-0">
+      <h1 class="flex items-center text-4xl leading-tight font-bold">
+        <span class="mr-2 h-10 w-10 shrink-0">
           <WifiIcon />
         </span>
         <span>Wi-Fi Card</span>
@@ -144,7 +144,7 @@
   <div class="mb-2 print:hidden">
     <div class="flex justify-end">
       <button
-        class="inline-flex min-h-[44px] items-center justify-center rounded-md bg-blue-600 px-8 font-semibold text-white transition-colors hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 active:bg-blue-800 motion-reduce:transition-none"
+        class="inline-flex min-h-[44px] items-center justify-center rounded-md bg-blue-600 px-8 font-semibold text-white transition-colors hover:bg-blue-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 active:bg-blue-800 motion-reduce:transition-none"
         on:click={print}
       >
         <span>{$t('actions.print')}</span>
