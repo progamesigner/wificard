@@ -27,6 +27,27 @@ npm run build
 
 You can preview the production build with `npm run preview`.
 
+## Deploying to Cloudflare
+
+The app runs on Cloudflare Workers with static assets, built by `@sveltejs/adapter-cloudflare`. The Worker renders each page so `?lang=` still sets `<html lang>` and the page text on the server. `wrangler.jsonc` holds the Worker settings.
+
+```sh
+npm run preview:cf       # build, then serve the Worker locally with wrangler dev (http://localhost:8787)
+npm run deploy:dry-run   # build and bundle without uploading
+npm run deploy           # build and deploy (needs `npx wrangler login` first)
+```
+
+Workers Builds (Worker > Settings > Build, connected to this GitHub repository):
+
+- Build command: `npm run build`
+- Deploy command: `npx wrangler deploy` (default)
+- Non-production branch deploy command: `npx wrangler versions upload` (default)
+- Root directory: `/`
+
+Node.js 24 is picked up from `.nvmrc`. The app needs no environment variables or secrets. To serve it on its own domain, add `wificard.0x148.com` under Worker > Settings > Domains & Routes > Custom domain.
+
+`netlify.toml` is the previous Netlify setup. It stays only so the site can be rolled back to Netlify until DNS has moved to Cloudflare.
+
 ## Testing
 
 ```sh
