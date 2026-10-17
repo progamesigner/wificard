@@ -1,6 +1,6 @@
 <script lang="ts">
   import { replaceState } from '$app/navigation'
-  import { page } from '$app/stores'
+  import { page } from '$app/state'
   import { safeLocalStorage, urlWithLocale, writeStoredLocale } from '$lib/i18n/browser'
   import { getI18n } from '$lib/i18n/context'
   import { isLocale, type Locale } from '$lib/i18n/locales'
@@ -26,7 +26,7 @@
     // Keep the page state, path, other query parameters and hash; replace without reloading so
     // unsaved form input survives and no history entry is added per switch.
     try {
-      replaceState(urlWithLocale(new URL(window.location.href), value), $page.state)
+      replaceState(urlWithLocale(new URL(window.location.href), value), page.state)
     } catch {
       // The switch already applied; a failed URL update must not break the page.
     }
