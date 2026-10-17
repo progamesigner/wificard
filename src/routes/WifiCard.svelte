@@ -184,7 +184,7 @@
             <span class="h-3 w-3 flex-shrink-0 fill-none stroke-current stroke-2">
               <ExclamationIcon />
             </span>
-            <span class="min-w-0 break-words px-2">{errors.S}</span>
+            <span class="min-w-0 px-2 break-words">{errors.S}</span>
           </p>
         {/if}
       </div>
@@ -222,7 +222,7 @@
               <span class="h-3 w-3 flex-shrink-0 fill-none stroke-current stroke-2">
                 <ExclamationIcon />
               </span>
-              <span class="min-w-0 break-words px-2">{errors.I}</span>
+              <span class="min-w-0 px-2 break-words">{errors.I}</span>
             </p>
           {/if}
         </div>
@@ -248,7 +248,7 @@
               <span class="h-3 w-3 flex-shrink-0 fill-none stroke-current stroke-2">
                 <ExclamationIcon />
               </span>
-              <span class="min-w-0 break-words px-2">{errors.P}</span>
+              <span class="min-w-0 px-2 break-words">{errors.P}</span>
             </p>
           {/if}
         </div>
@@ -258,7 +258,7 @@
             <span class="h-3 w-3 flex-shrink-0 fill-none stroke-current stroke-2">
               <ExclamationIcon />
             </span>
-            <span class="min-w-0 break-words px-2">{errors.P}</span>
+            <span class="min-w-0 px-2 break-words">{errors.P}</span>
           </p>
         </div>
       {/if}

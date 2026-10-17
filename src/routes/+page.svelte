@@ -88,7 +88,7 @@
 <header class="print:hidden">
   <div class="container mx-auto max-w-xl px-4 pt-4">
     <div class="mb-4 flex flex-wrap items-center justify-between gap-4">
-      <h1 class="flex items-center text-4xl font-bold leading-tight">
+      <h1 class="flex items-center text-4xl leading-tight font-bold">
         <span class="mr-2 h-10 w-10 flex-shrink-0">
           <WifiIcon />
         </span>
