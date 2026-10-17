@@ -141,13 +141,13 @@
   class:max-w-xs={layout === Layout.Portrait}
 >
   <div class="flex items-center font-bold">
-    <span class="h-8 w-8 flex-shrink-0">
+    <span class="h-8 w-8 shrink-0">
       <WifiIcon />
     </span>
     <label class="min-w-0 flex-1">
       <span class="sr-only">{$t('card.title.label')}</span>
       <input
-        class="inline-block h-8 w-full rounded border border-none bg-slate-100 px-2 font-bold outline-2 outline-transparent transition-all focus:outline focus:outline-blue-400 print:bg-transparent"
+        class="inline-block h-8 w-full rounded-sm border border-none bg-slate-100 px-2 font-bold outline-2 outline-transparent transition-all outline-none focus:outline-blue-400 focus:outline-solid print:bg-transparent"
         placeholder={$t('card.title.placeholder')}
         type="text"
         bind:value={customTitle}
@@ -169,7 +169,7 @@
         <label>
           <span class="mb-2 font-medium">{$t('card.network.label')}</span>
           <input
-            class="h-12 w-full rounded border bg-slate-100 px-4 font-bold outline-2 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
+            class="h-12 w-full rounded-sm border bg-slate-100 px-4 font-bold outline-2 outline-blue-400 transition-all outline-none focus:outline-solid print:border-transparent print:bg-transparent"
             class:border-red-400={!!errors.S}
             aria-invalid={!!errors.S}
             aria-describedby={errors.S ? 'ssid-error' : undefined}
@@ -181,7 +181,7 @@
         </label>
         {#if !!errors.S}
           <p id="ssid-error" class="flex items-center text-sm text-red-400">
-            <span class="h-3 w-3 flex-shrink-0 fill-none stroke-current stroke-2">
+            <span class="h-3 w-3 shrink-0 fill-none stroke-current stroke-2">
               <ExclamationIcon />
             </span>
             <span class="min-w-0 px-2 break-words">{errors.S}</span>
@@ -194,7 +194,7 @@
           <label>
             <span class="mb-2 font-medium">{$t('card.eapMethod.label')}</span>
             <input
-              class="h-12 w-full cursor-not-allowed rounded border bg-slate-100 px-4 font-bold outline-2 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
+              class="h-12 w-full cursor-not-allowed rounded-sm border bg-slate-100 px-4 font-bold outline-2 outline-blue-400 transition-all outline-none focus:outline-solid print:border-transparent print:bg-transparent"
               placeholder={$t('card.eapMethod.placeholder')}
               type="text"
               disabled
@@ -207,7 +207,7 @@
           <label>
             <span class="mb-2 font-medium">{$t('card.identity.label')}</span>
             <input
-              class="h-12 w-full rounded border bg-slate-100 px-4 font-bold outline-2 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
+              class="h-12 w-full rounded-sm border bg-slate-100 px-4 font-bold outline-2 outline-blue-400 transition-all outline-none focus:outline-solid print:border-transparent print:bg-transparent"
               class:border-red-400={!!errors.I}
               type="text"
               aria-invalid={!!errors.I}
@@ -219,7 +219,7 @@
           </label>
           {#if !!errors.I}
             <p id="identity-error" class="flex items-center text-sm text-red-400">
-              <span class="h-3 w-3 flex-shrink-0 fill-none stroke-current stroke-2">
+              <span class="h-3 w-3 shrink-0 fill-none stroke-current stroke-2">
                 <ExclamationIcon />
               </span>
               <span class="min-w-0 px-2 break-words">{errors.I}</span>
@@ -233,7 +233,7 @@
           <label>
             <span class="mb-2 font-medium">{$t('card.password.label')}</span>
             <input
-              class="h-12 w-full rounded border bg-slate-100 px-4 font-bold outline-2 outline-blue-400 transition-all focus:outline print:border-transparent print:bg-transparent"
+              class="h-12 w-full rounded-sm border bg-slate-100 px-4 font-bold outline-2 outline-blue-400 transition-all outline-none focus:outline-solid print:border-transparent print:bg-transparent"
               class:border-red-400={!!errors.P}
               type="text"
               aria-invalid={!!errors.P}
@@ -245,7 +245,7 @@
           </label>
           {#if !!errors.P}
             <p id="password-error" class="flex items-center text-sm text-red-400">
-              <span class="h-3 w-3 flex-shrink-0 fill-none stroke-current stroke-2">
+              <span class="h-3 w-3 shrink-0 fill-none stroke-current stroke-2">
                 <ExclamationIcon />
               </span>
               <span class="min-w-0 px-2 break-words">{errors.P}</span>
@@ -255,7 +255,7 @@
       {:else if hidePassword && !!errors.P}
         <div class="mb-2">
           <p class="flex items-center text-sm text-red-400">
-            <span class="h-3 w-3 flex-shrink-0 fill-none stroke-current stroke-2">
+            <span class="h-3 w-3 shrink-0 fill-none stroke-current stroke-2">
               <ExclamationIcon />
             </span>
             <span class="min-w-0 px-2 break-words">{errors.P}</span>

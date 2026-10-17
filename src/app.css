@@ -1,8 +1,53 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss' source('./');
+
+@theme inline {
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', var(--font-cjk),
+    sans-serif;
+}
+
+/* Preserve the existing palette instead of adopting the v4 OKLCH colors. */
+@theme {
+  --color-blue-400: #60a5fa;
+  --color-blue-600: #2563eb;
+  --color-blue-700: #1d4ed8;
+  --color-blue-800: #1e40af;
+  --color-slate-100: #f1f5f9;
+  --color-slate-300: #cbd5e1;
+  --color-red-400: #f87171;
+  --color-red-600: #dc2626;
+  --color-gray-200: #e5e7eb;
+  --color-gray-400: #9ca3af;
+}
+
+/* Preserve v3 hover behavior, including on touch devices. */
+@custom-variant hover (&:hover);
 
 @layer base {
+  /* v4 changed these Preflight defaults; keep the existing borders and controls. */
+  *,
+  ::before,
+  ::after,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200);
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-gray-400);
+  }
+
+  /* Keep the browser's native option spacing in the language menu. */
+  option {
+    padding: revert;
+  }
+
+  button:not(:disabled),
+  [role='button']:not(:disabled) {
+    cursor: pointer;
+  }
+
   /* System fonts only; CJK fallbacks follow the document language and also cover Chinese SSIDs on
      the English page. Fonts that are not installed are skipped by the browser. */
   :root {
