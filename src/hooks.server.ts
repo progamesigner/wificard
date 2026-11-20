@@ -1,4 +1,4 @@
-import type { Handle } from '@sveltejs/kit'
+import type { Handle } from '@sveltejs/kit/hooks'
 
 import { DEFAULT_LOCALE, localeFromSearchParams } from '$lib/i18n/locales'
 

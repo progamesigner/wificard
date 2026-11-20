@@ -315,6 +315,38 @@ test.describe('layout', () => {
 })
 
 test.describe('fonts and controls', () => {
+  test('preserves card and control styles across Tailwind upgrades', async ({ page }) => {
+    await open(page, '/?lang=en')
+    const network = page.getByRole('textbox', { name: 'Network', exact: true })
+    const title = page.getByRole('textbox', { name: 'Card title', exact: true })
+    const print = page.getByRole('button', { name: 'Print' })
+
+    await expect(network).toHaveCSS('background-color', 'rgb(241, 245, 249)')
+    await expect(network).toHaveCSS('border-color', 'rgb(229, 231, 235)')
+    await expect(network).toHaveCSS('border-radius', '4px')
+    await expect(network).toHaveCSS('outline-style', 'none')
+    await expect(title).toHaveCSS('border-radius', '4px')
+    expect(await title.evaluate(element => getComputedStyle(element, '::placeholder').color)).toBe(
+      'rgb(156, 163, 175)'
+    )
+    await network.focus()
+    await expect(network).toHaveCSS('outline-style', 'solid')
+    await expect(network).toHaveCSS('outline-width', '2px')
+    await expect(network).toHaveCSS('outline-color', 'rgb(96, 165, 250)')
+    await title.focus()
+    await expect(title).toHaveCSS('outline-style', 'solid')
+    await expect(title).toHaveCSS('outline-color', 'rgb(96, 165, 250)')
+    await expect(network).toHaveCSS('outline-style', 'none')
+
+    await expect(print).toHaveCSS('background-color', 'rgb(37, 99, 235)')
+    await expect(print).toHaveCSS('cursor', 'pointer')
+    await print.hover()
+    await expect(print).toHaveCSS('background-color', 'rgb(29, 78, 216)')
+    await page.mouse.move(0, 0)
+    await print.click()
+    await expect(network).toHaveCSS('border-color', 'rgb(248, 113, 113)')
+  })
+
   test('font stack follows the document language', async ({ page }) => {
     const fontFamily = () => page.evaluate(() => getComputedStyle(document.body).fontFamily)
     await open(page, '/?lang=zh-TW')

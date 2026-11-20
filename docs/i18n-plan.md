@@ -79,7 +79,7 @@
 2. `src/hooks.server.ts` 用相同解析函式，把 `src/app.html` 的專用語言佔位符替換為白名單 locale。SSR 的 `<html lang>`、文字與 layout data 必須相同；不把原始 query 直接插入 HTML。
 3. `+layout.svelte` 每次元件初始化都建立獨立 i18n instance，透過 context 提供給子元件。共用模組只能保存不可變字典與純函式，不能保存當前使用者 locale。
 4. hydration 的第一個 render 完全沿用 SSR locale；`onMount` 後才讀 storage 與 `navigator.languages`，缺少清單時使用 `navigator.language`。一次更新 locale、文件 `lang`、meta 與畫面。
-5. 導覽時同步更新既有 context instance，不能用 `{#key locale}` 重建整個頁面；確保 layout data 更新不覆蓋已解析的 browser preference。現有 legacy 元件若需訂閱 page URL，使用 `$app/stores` 的 page store，或明確的導覽 callback；不要假設 `$app/state` 在 legacy `$:` 中會反應式更新。
+5. 導覽時同步更新既有 context instance，不能用 `{#key locale}` 重建整個頁面；確保 layout data 更新不覆蓋已解析的 browser preference。若需訂閱 page URL，使用 `$app/state` 搭配 runes，或明確的導覽 callback；不要假設 `$app/state` 在 legacy `$:` 中會反應式更新。事件處理函式可直接讀取 `page.state` 的目前值。
 
 這符合 SvelteKit 避免在伺服器共享使用者狀態的原則；見 [State management](https://svelte.dev/docs/kit/state-management)。page 的反應式限制見 [$app/state](https://svelte.dev/docs/kit/$app-state)，文件語言的設定方式另見 [SvelteKit accessibility](https://svelte.dev/docs/kit/accessibility#The-lang-attribute)。
 
