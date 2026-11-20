@@ -1,0 +1,13 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "wificard",
+  "compatibility_date": "2026-10-16",
+  "compatibility_flags": ["nodejs_als"],
+  "workers_dev": false,
+  "preview_urls": true,
+  "routes": [{ "pattern": "wificard.0x148.com", "custom_domain": true, "previews_enabled": false }],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".svelte-kit/cloudflare",
+  },
+}

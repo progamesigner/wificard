@@ -12,3 +12,6 @@ vite.config.ts.timestamp-*
 # Test output
 /test-results
 /playwright-report
+
+# Wrangler
+/.wrangler

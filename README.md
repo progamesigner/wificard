@@ -1,7 +1,5 @@
 # Wi-Fi Card
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/progamesigner/wificard)
-
 https://wificard.0x148.com
 
 Print a simple card with Wi-Fi details. Tape it to fridge, keep it in wallet, or display it in store, etc.
@@ -26,6 +24,16 @@ npm run build
 ```
 
 You can preview the production build with `npm run preview`.
+
+## Deploying to Cloudflare
+
+The app runs on Cloudflare Workers, built by `@sveltejs/adapter-cloudflare`. The Worker renders each page, so `?lang=` sets `<html lang>` and the page text on the server. `wrangler.jsonc` holds the Worker settings.
+
+```sh
+npm run build && npx wrangler dev   # serve the built Worker locally (http://localhost:8787)
+```
+
+GitHub Actions deploys the app with `.github/workflows/deploy.yaml`. Every push runs the checks, the lint, the unit and end-to-end tests, and the build. A push to `main` deploys to production on `wificard.0x148.com`. A push to any other branch uploads a preview version on `workers.dev` under an alias named after the branch, and the run summary shows its URL. The workflow needs the repository secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID`. The app needs no runtime variables or secrets.
 
 ## Testing
 
